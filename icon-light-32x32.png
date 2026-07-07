@@ -1,0 +1,48 @@
+export type VariantId = "base" | "gold" | "gummy" | "galaxy" | "holofoil"
+
+export interface Sprite {
+  name: string
+  perk: string
+  image: string
+}
+
+export interface VariantDef {
+  id: VariantId
+  label: string
+  bonus: string
+  comingSoon?: boolean
+  releaseNote?: string
+}
+
+// Exact official dataset — do not alter.
+export const fortniteSprites: Sprite[] = [
+  { name: "Earth Sprite", perk: "Chance to find additional rare items from chests.", image: "/sprites/earth.png" },
+  { name: "Fire Sprite", perk: "Creates a fiery burst when dealing enough damage.", image: "/sprites/fire.png" },
+  { name: "Water Sprite", perk: "Replenishes shields while standing inside water.", image: "/sprites/water.png" },
+  { name: "Duck Sprite", perk: "Emoting or Jamming replenishes your shield.", image: "/sprites/duck.png" },
+  { name: "Ghost Sprite", perk: "Grants cloak for a duration upon reloading.", image: "/sprites/ghost.png" },
+  { name: "Demon Sprite", perk: "Siphons health and shield upon player elimination.", image: "/sprites/demon.png" },
+  { name: "King Sprite", perk: "Your harvesting tool deals increased damage.", image: "/sprites/king.png" },
+  { name: "Dream Sprite", perk: "Grants random items; explodes with legendary loot at max lvl.", image: "/sprites/dream.png" },
+  { name: "Zero Point Sprite", perk: "Spawns a Shield Bubble Jr. when using a healing item.", image: "/sprites/zeropoint.png" },
+  { name: "Burnt Peanut Sprite", perk: "Find more loot when eliminating players.", image: "/sprites/peanut.png" },
+  { name: "Striker Sprite", perk: "Gain Overdrive speed boosts when mantling or hurdling.", image: "/sprites/striker.png" },
+  { name: "Fishy Sprite", perk: "Increases swim speed and grants speed boost when damaged.", image: "/sprites/fishy.png" },
+  { name: "Aura Sprite", perk: "Earn a Shock Rock charge after dealing enough damage.", image: "/sprites/aura.png" },
+  { name: "Boss Sprite", perk: "Increases your maximum overall Health and Shield.", image: "/sprites/boss.png" },
+  { name: "Grim Reaper Sprite", perk: "Marks enemies who attack your character for a duration.", image: "/sprites/reaper.png" },
+]
+
+export const variantDefs: VariantDef[] = [
+  { id: "base", label: "Base", bonus: "The standard sprite finish — where every collection begins." },
+  { id: "gold", label: "Gold", bonus: "Grants bonus elimination XP." },
+  { id: "gummy", label: "Gummy", bonus: "Grants +10% Sprite Dust extraction." },
+  { id: "galaxy", label: "Galaxy", bonus: "Grants +20% ammo from boxes." },
+  {
+    id: "holofoil",
+    label: "Holofoil",
+    bonus: "Iridescent collector's finish.",
+    comingSoon: true,
+    releaseNote: "Coming Soon: July 9th",
+  },
+]

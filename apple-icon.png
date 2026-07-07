@@ -1,0 +1,118 @@
+"use client"
+
+import { Check, Lock, Crown } from "lucide-react"
+import { cn } from "@/lib/utils"
+import type { VariantDef } from "@/lib/sprites"
+
+interface VariantStyle {
+  activeBg: string
+  activeBorder: string
+  activeText: string
+  glow: string
+  dot: string
+}
+
+const styles: Record<string, VariantStyle> = {
+  base: {
+    activeBg: "bg-[#1e2438]",
+    activeBorder: "border-[#8fa4d4]",
+    activeText: "text-[#cdd8f5]",
+    glow: "shadow-[0_0_14px_rgba(143,164,212,0.55)]",
+    dot: "bg-[#8fa4d4]",
+  },
+  gold: {
+    activeBg: "bg-[#3a2f00]",
+    activeBorder: "border-[#ffcf3f]",
+    activeText: "text-[#ffe27a]",
+    glow: "shadow-[0_0_14px_rgba(255,207,63,0.65)]",
+    dot: "bg-[#ffcf3f]",
+  },
+  gummy: {
+    activeBg: "bg-[#0d2e1c]",
+    activeBorder: "border-[#4dffb0]",
+    activeText: "text-[#8affd0]",
+    glow: "shadow-[0_0_14px_rgba(255,105,180,0.55),0_0_14px_rgba(77,255,176,0.45)]",
+    dot: "bg-gradient-to-r from-[#ff69b4] to-[#4dffb0]",
+  },
+  galaxy: {
+    activeBg: "bg-[#26103f]",
+    activeBorder: "border-[#b980ff]",
+    activeText: "text-[#d9b3ff]",
+    glow: "shadow-[0_0_16px_rgba(153,85,255,0.7)]",
+    dot: "bg-gradient-to-r from-[#7b2ff7] to-[#38bdf8]",
+  },
+  holofoil: {
+    activeBg: "bg-[#1b1f2e]",
+    activeBorder: "border-[#c9d4ff]",
+    activeText: "text-[#e8ecff]",
+    glow: "shadow-[0_0_16px_rgba(180,200,255,0.6)]",
+    dot: "bg-[conic-gradient(from_0deg,#ff6ec4,#7873f5,#4ade80,#facc15,#ff6ec4)]",
+  },
+}
+
+interface VariantBadgeProps {
+  variant: VariantDef
+  owned: boolean
+  mastered: boolean
+  onToggle: () => void
+  onToggleMaster: () => void
+}
+
+export function VariantBadge({ variant, owned, mastered, onToggle, onToggleMaster }: VariantBadgeProps) {
+  const s = styles[variant.id]
+  const disabled = variant.comingSoon
+
+  return (
+    <div className="flex flex-col items-center gap-1">
+      {/* Crown = mastered toggle, sits above the pill */}
+      <button
+        type="button"
+        onClick={disabled ? undefined : onToggleMaster}
+        aria-pressed={mastered}
+        aria-disabled={disabled}
+        aria-label={`Mark ${variant.label} as mastered`}
+        title={disabled ? variant.releaseNote : mastered ? `${variant.label} mastered` : `Master ${variant.label}`}
+        className={cn(
+          "flex size-5 items-center justify-center rounded-full border transition-all duration-200",
+          disabled
+            ? "cursor-not-allowed border-dashed border-border/50 text-muted-foreground/40"
+            : mastered
+              ? "border-[#ffcf3f] bg-[#3a2f00] text-[#ffe27a] shadow-[0_0_12px_rgba(255,207,63,0.75)]"
+              : "border-border/60 bg-black/30 text-muted-foreground/60 hover:border-[#ffcf3f]/70 hover:text-[#ffe27a]",
+        )}
+      >
+        <Crown className={cn("size-3", mastered && "fill-current")} aria-hidden="true" />
+      </button>
+
+      <button
+        type="button"
+        onClick={disabled ? undefined : onToggle}
+        aria-pressed={owned}
+        aria-disabled={disabled}
+        title={disabled ? variant.releaseNote : variant.bonus}
+        className={cn(
+          "group relative flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-semibold uppercase tracking-wide transition-all duration-200",
+          disabled
+            ? "cursor-not-allowed border-dashed border-border/70 bg-muted/40 text-muted-foreground"
+            : owned
+              ? cn(s.activeBg, s.activeBorder, s.activeText, s.glow)
+              : "border-border/60 bg-black/30 text-muted-foreground hover:border-border hover:text-foreground",
+        )}
+      >
+        <span
+          className={cn(
+            "inline-block size-2 shrink-0 rounded-full transition-all",
+            owned && !disabled ? s.dot : "bg-muted-foreground/40",
+          )}
+          aria-hidden="true"
+        />
+        <span>{variant.label}</span>
+        {disabled ? (
+          <Lock className="size-3" aria-hidden="true" />
+        ) : owned ? (
+          <Check className="size-3" aria-hidden="true" />
+        ) : null}
+      </button>
+    </div>
+  )
+}
